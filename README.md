@@ -87,7 +87,7 @@ Visit: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ![Login Page]<img width="1349" height="594" alt="login page (1)" src="https://github.com/user-attachments/assets/ceadc769-05c9-419a-afaa-d06bb18699cb" />
 ![Captcha Page]<img width="1353" height="589" alt="login page (2)" src="https://github.com/user-attachments/assets/fd28839a-257e-43a8-935a-2fd22e331614" />
-![Papadam Counter]<img width="1365" height="601" alt="login page (3)" src="https://github.com/user-attachments/assets/1ff3bb3c-838b-46c3-8e70-c6ab0903453d" />
+![Papadam Counter]<img width="1365" height="598" alt="Screenshot 2025-08-02 035459" src="https://github.com/user-attachments/assets/5dc7c401-a4ee-4593-90e0-bb69968aef14" />
 
 ---
 
