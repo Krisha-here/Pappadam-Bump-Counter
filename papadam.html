@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Papadam Bump Counter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #fceff9, #e0f7fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      padding: 30px 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 520px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #d81b60;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #f5f5f5;
+      font-size: 14px;
+      outline: none;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 13px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(to right, #ffa5c8, #ffd6d6);
+      color: #333;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    #count {
+      margin-top: 15px;
+      color: #c2185b;
+      font-weight: bold;
+    }
+
+    .result-images {
+      display: none;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .img-box {
+      text-align: center;
+    }
+
+    .img-box img {
+      width: 140px;
+      border-radius: 12px;
+      margin-top: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .img-box p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload Your Papadam</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="image" id="image" accept="image/*" required>
+      <button type="submit">Count Bumps</button>
+    </form>
+
+    <div id="count"></div>
+
+    <div class="result-images">
+      <div class="img-box">
+        <p>Original</p>
+        <img id="original-img" src="#" alt="Original">
+      </div>
+      <div class="img-box">
+        <p>Thresholded</p>
+        <img id="threshold-img" src="#" alt="Thresholded">
+      </div>
+      <div class="img-box">
+        <p>Contours</p>
+        <img id="contour-img" src="#" alt="Contours">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const file = document.getElementById("image").files[0];
+      formData.append("image", file);
+
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      document.getElementById("count").textContent = "Bumps detected: " + result.count;
+
+      document.getElementById("original-img").src = result.original + "?" + Date.now();
+      document.getElementById("threshold-img").src = result.threshold + "?" + Date.now();
+      document.getElementById("contour-img").src = result.contours + "?" + Date.now();
+
+      document.querySelector(".result-images").style.display = "flex";
+    });
+  </script>
+</body>
+</html>
