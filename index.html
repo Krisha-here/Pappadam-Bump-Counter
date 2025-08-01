@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emoji Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fceff9, #e0f7fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-card {
+      backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #333;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 12px;
+      color: #555;
+      align-self: flex-start;
+    }
+
+    input,
+    #slider {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #f5f5f5;
+      font-size: 14px;
+      outline: none;
+      margin-top: 5px;
+    }
+
+    #username {
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #c2185b;
+      width: 100%;
+      text-align: center;
+    }
+
+    #video {
+      margin-top: 20px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 13px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(to right, #ffa5c8, #ffd6d6);
+      color: #333;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(255, 182, 193, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    #captureBtn {
+      display: none;
+    }
+
+    /* Pinky Modal */
+    #pinkyModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .pinky-box {
+      background: #ffe7fc;
+      padding: 30px;
+      border-radius: 16px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    .drag-area {
+      position: relative;
+      height: 180px;
+      margin-top: 30px;
+    }
+
+    .emoji {
+      font-size: 60px;
+      position: absolute;
+      top: 40px;
+      user-select: none;
+    }
+
+    #leftPinky {
+      left: 30px;
+    }
+
+    #rightPinky {
+      left: 200px;
+      cursor: grab;
+      transform: scaleX(-1);
+      transition: transform 0.2s ease;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #050303;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>Login</h2>
+
+    <label for="slider">Username</label>
+    <input type="range" id="slider" min="0" max="100" value="0">
+    <div id="username">Slide me...</div>
+
+    <label for="password">Password</label>
+    <input type="text" id="password" placeholder="Click here to start" readonly>
+
+    <video id="video" width="320" height="240" autoplay muted></video>
+    <button id="captureBtn" onclick="captureExpression()">Capture Expression</button>
+    <button onclick="handleLogin()">Login</button>
+  </div>
+
+  <!-- Pinky Promise Modal -->
+  <div id="pinkyModal">
+    <div class="pinky-box">
+      <h3>Account Access</h3>
+      <p>Do you pinky promise this is your account?</p>
+      <div class="drag-area">
+        <div class="emoji" id="leftPinky">🤙</div>
+        <div class="emoji" id="rightPinky">🤙</div>
+      </div>
+      <p id="status">Slide the right pinky to touch the left one!</p>
+    </div>
+  </div>
+
+  <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script>
+    const usernameBox = document.getElementById("username");
+    const slider = document.getElementById("slider");
+    const video = document.getElementById("video");
+    const passwordBox = document.getElementById("password");
+    const captureBtn = document.getElementById("captureBtn");
+    const pinkyModal = document.getElementById("pinkyModal");
+
+    function generateRandomUsername(length = 8) {
+      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+      let name = "";
+      for (let i = 0; i < length; i++) {
+        name += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return name;
+    }
+
+    slider.addEventListener("input", () => {
+      const length = Math.floor(slider.value / 10) + 4;
+      usernameBox.textContent = generateRandomUsername(length);
+    });
+
+    let modelsLoaded = false;
+    async function loadModels() {
+      if (!modelsLoaded) {
+        await faceapi.nets.tinyFaceDetector.loadFromUri("/static/models");
+        await faceapi.nets.faceExpressionNet.loadFromUri("/static/models");
+
+        modelsLoaded = true;
+      }
+    }
+
+    passwordBox.addEventListener("click", async () => {
+      await loadModels();
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      video.style.display = "block";
+      captureBtn.style.display = "inline-block";
+    });
+
+    async function captureExpression() {
+      const detection = await faceapi
+        .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+        .withFaceExpressions();
+
+      if (!detection) {
+        alert("No face detected. Try again.");
+        return;
+      }
+
+      const expressions = detection.expressions;
+      const max = Object.keys(expressions).reduce((a, b) =>
+        expressions[a] > expressions[b] ? a : b
+      );
+
+      const emojiMap = {
+        happy: '😄',
+        sad: '😢',
+        angry: '😠',
+        surprised: '😲',
+        disgusted: '🤢',
+        fearful: '😱',
+        neutral: '😐'
+      };
+
+      const emoji = emojiMap[max] || '❓';
+      passwordBox.value += emoji;
+    }
+
+    function handleLogin() {
+      pinkyModal.style.display = "flex";
+    }
+
+    // Pinky Drag Logic
+    const rightPinky = document.getElementById("rightPinky");
+    const leftPinky = document.getElementById("leftPinky");
+    const status = document.getElementById("status");
+
+    let isDragging = false;
+
+    function areTouching(r1, r2) {
+      return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+    }
+
+    rightPinky.addEventListener("mousedown", () => isDragging = true);
+
+    document.addEventListener("mouseup", () => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const leftRect = leftPinky.getBoundingClientRect();
+      const rightRect = rightPinky.getBoundingClientRect();
+
+      if (areTouching(leftRect, rightRect)) {
+        status.textContent = "✅ Pinky Promise Verified!";
+        status.style.color = "#000";
+        confetti();
+        setTimeout(() => {
+  pinkyModal.style.display = "none";
+  window.location.href = "/papadam.html"; // Redirect to papadam page
+}, 1500);
+      } else {
+        status.textContent = "❌ Pinkies didn't touch. Try again!";
+        status.style.color = "yellow";
+      }
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      const containerRect = document.querySelector(".drag-area").getBoundingClientRect();
+      const x = e.clientX - containerRect.left - 30;
+      rightPinky.style.left = `${x}px`;
+    });
+  </script>
+</body>
+</html>
