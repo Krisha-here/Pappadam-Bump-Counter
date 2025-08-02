@@ -1,101 +1,93 @@
+<img width="3188" height="1202" alt="image" src="https://github.com/user-attachments/assets/e996b26d-f0ab-4a7f-ad5f-ed8dcae29228" />
 
 # 🤪 Useless Project — Emoji Login + Papadam Bump Counter
 
-A delightfully useless web project that combines two unrelated concepts:
-- **Emoji-based Facial Expression Login** 🎭
-- **Papadam Bump Detection using OpenCV** 🍘
-
+A delightfully useless web project that combines two unrelated concepts:  
+Emoji-based Facial Expression Login 🎭 + Papadam Bump Detection using OpenCV 🍘  
 Perfectly weird and pointlessly fun!
 
----
 
-## 🗂 Project Structure
+## Basic Details  
+*Bug Busters:* 
 
-```
-useless-project/
-│
-├── app.py                       # Flask backend to serve login and upload logic
-├── pappad.py                    # Image processing logic for bump detection
-├── papadam.html                 # Bump counter upload interface (styled)
-├── papadam.jpg                  # Sample papadam image
-├── sindhi-masala-papad-1000x1000.jpg # Another sample image
-├── README.md                    # This file ✨
-│
-├── static/
-│   ├── contours.jpg             # Output with contour detection
-│   ├── original.jpg             # Original uploaded image
-│   ├── result.jpg               # Final image with bump contours
-│   ├── threshold.jpg            # Thresholded image
-│   ├── uploaded.jpg             # Raw uploaded file
-│   └── models/                  # Face-api.js models
-│       ├── face_expression_model-shard1
-│       ├── face_expression_model-weights_manifest.json
-│       ├── tiny_face_detector_model-shard1
-│       └── tiny_face_detector_model-weights_manifest.json
-│
-└── templates/
-    └── login.html              # Emoji-based facial expression login page
-```
+### Team Members  
+- *Team Lead:* [Aaryatha PR] - [Adi Shankara Institute of Engineering and Technology]  
+- *Member 2:* [Ajishmi Prakash] - [Adi Shankara Institute of Engineering and Technology]   
 
 ---
 
-## 🚀 How to Run
+## Project Description  
+A fun pastel-themed web app where you log in using facial expression emojis and a pinky promise. Once logged in, upload a papadam image, and the app uses OpenCV and Matplotlib to count the bumps. A playful fusion of computer vision and creative UI! 
+---
 
-### 1. 🧱 Install Requirements
+## The Problem (that doesn't exist)  
+Too many papadams are being served without proper quality control. How many bumps are too many? No one knows. Meanwhile, traditional logins using passwords or OTPs feel boring and insecure… wouldn’t your face (literally) be a better password? Clearly, the world was missing a papadam quality tester and a facial emoji password system.
 
-```bash
+---
+
+## The Solution (that nobody asked for)  
+A facial expression recognition-based login system with a pinky promise captcha — plus, a bump counter that lets you analyze your papadam crispiness. Yes, really.
+  
+---
+
+## Technical Details  
+
+ 
+### For Software:
+- Languages used: Python, JavaScript, HTML, CSS  
+- Frameworks used: Flask  
+- Libraries used: OpenCV, Matplotlib, face-api.js, NumPy  
+- Tools used: VS Code, browser, camera
+
+### For Hardware:
+- Webcam (for facial recognition)  
+- Computer (duh)
+- browser
+- camera  
+
+---
+
+## 🚀 Implementation
+
+### Installation:
+bash
 pip install flask opencv-python matplotlib numpy
-```
 
----
 
-### 2. ▶️ Run the App
-
-```bash
+### Run:
+bash
 python app.py
-```
 
-Visit: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Visit: http://127.0.0.1:5000
 
----
+--- 
 
-## ✨ Features
+# Example installation steps
+git clone https://github.com/your-repo/project.git  
+cd project  
+npm install
 
-### 🔐 Emoji Expression Login
-- Facial expression converted to emoji
-- Username generated via slider
-- Pinky Promise drag-and-drop verification with confetti 🎉
+## 📸 Project Documentation
 
-### 🍘 Papadam Bump Counter
-- Upload a papadam image
-- Detects bumps via adaptive threshold + contouring
-- Displays:
-  - Original image
-  - Thresholded version
-  - Bump-detected image
-  - Total bump count 💨
+### Screenshots:
 
----
+![Login Page]<img width="1349" height="594" alt="login page" src="https://github.com/user-attachments/assets/14fc12b2-723b-4245-8d72-970180e6a748" />
 
-## 📁 Notes
-- All facial recognition models (`face-api.js`) are loaded from `/static/models`.
-- All images saved/processed are stored in `/static/`.
+
+) – The emoji-based login interface  
+
+![Pinky Promise]<img width="1353" height="589" alt="captcha page" src="https://github.com/user-attachments/assets/e2b5389b-ec14-4325-9604-dc275a657840" />
+
+) – Confetti-filled pinky captcha  
+![Papadam Counter]<img width="1365" height="598" alt="pappadam bump counter page" src="https://github.com/user-attachments/assets/a4b022ce-460c-43d4-ba54-82a5ef997b92" />
+
+) – Bump-detection results 
 
 ---
 
-## 📸 Demo
+## 👩‍💻 Team Contributions
 
-![Login Page]<img width="1349" height="594" alt="login page (1)" src="https://github.com/user-attachments/assets/ceadc769-05c9-419a-afaa-d06bb18699cb" />
-![Captcha Page]<img width="1353" height="589" alt="login page (2)" src="https://github.com/user-attachments/assets/fd28839a-257e-43a8-935a-2fd22e331614" />
-![Papadam Counter]<img width="1365" height="598" alt="Screenshot 2025-08-02 035459" src="https://github.com/user-attachments/assets/5dc7c401-a4ee-4593-90e0-bb69968aef14" />
-
----
-
-## 🧠 Why?
-Why not.
+- Aaryatha P R: Frontend design, Flask backend, expression login logic  
+- Ajishmi Prakash: Image processing, bump detection, UI integration
 
 ---
-
-## 🧽 License
-
-Free to use. Just don’t sell papadams with this.
