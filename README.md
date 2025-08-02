@@ -16,8 +16,9 @@ Perfectly weird and pointlessly fun!
 
 ---
 
-## Project Description  
-A fun pastel-themed web app where you log in using facial expression emojis and a pinky promise. Once logged in, upload a papadam image, and the app uses OpenCV and Matplotlib to count the bumps. A playful fusion of computer vision and creative UI! 
+## Project Description
+A fun pastel-themed web app where you log in using facial expression emojis and a pinky promise. Once logged in, upload a papadam image, and the app uses OpenCV and Matplotlib to count the bumps. A playful fusion of computer vision and creative UI!
+
 ---
 
 ## The Problem (that doesn't exist)  
