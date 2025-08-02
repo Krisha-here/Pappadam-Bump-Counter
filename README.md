@@ -8,7 +8,7 @@ Perfectly weird and pointlessly fun!
 
 
 ## Basic Details  
-*Bug Busters:* 
+*Bug Busters* 
 
 ### Team Members  
 - *Team Lead:* [Aaryatha PR] - [Adi Shankara Institute of Engineering and Technology]  
